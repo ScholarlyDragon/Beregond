@@ -26,7 +26,7 @@ def main():
     if not response.usage_metadata:
         raise RuntimeError("API request failed. ☠")
     
-    print("At your service, my liege! 🤺")
+    print("At your service, my liege!")
     if args.verbose == True:
         print(f"User prompt: {args.user_prompt}")
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
