@@ -1,9 +1,11 @@
 import os
-
+# This function gets the metadata of the contents of a given directory 
+# if it is within the working directory.
 def get_files_info(working_directory, directory="."):
     try:
         working_dir_abs = os.path.abspath(working_directory)
         target_dir = os.path.normpath(os.path.join(working_dir_abs, directory))
+
         # Will be True or False:
         valid_target_dir = os.path.commonpath([working_dir_abs, target_dir]) == working_dir_abs
         if valid_target_dir == False:
@@ -15,9 +17,9 @@ def get_files_info(working_directory, directory="."):
         
         target_dir_content_list = os.listdir(target_dir)
         results = []
-        for list_item in target_dir_content_list:
+        for item in target_dir_content_list:
             results.append(
-                f'- {list_item}: file_size={os.path.getsize("/".join([target_dir, list_item]))} bytes, is_dir={os.path.isdir("/".join([target_dir, list_item]))}'
+                f'- {item}: file_size={os.path.getsize("/".join([target_dir, item]))} bytes, is_dir={os.path.isdir("/".join([target_dir, item]))}'
             )    
         return "\n".join(results)
     except Exception as e:
