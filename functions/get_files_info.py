@@ -10,11 +10,11 @@ def get_files_info(working_directory, directory="."):
 
         # Handle invalid directories:
         valid_target_dir = os.path.commonpath([working_dir_abs, target_dir]) == working_dir_abs
-        if valid_target_dir == False:
+        if not valid_target_dir:
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
         
         dir_exists = os.path.isdir(target_dir)
-        if dir_exists == False:
+        if not dir_exists:
             return f'Error: "{directory}" is not a directory'
         
         # List metadata
@@ -25,5 +25,6 @@ def get_files_info(working_directory, directory="."):
                 f'- {item}: file_size={os.path.getsize("/".join([target_dir, item]))} bytes, is_dir={os.path.isdir("/".join([target_dir, item]))}'
             )    
         return "\n".join(results)
+    
     except Exception as e:
-        print(f"Error: {e}")
+        return f"Error: {e}"

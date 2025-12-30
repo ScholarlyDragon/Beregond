@@ -9,11 +9,11 @@ def get_file_content(working_directory, file_path):
 
         # Handle invalid files:
         valid_target_file = os.path.commonpath([working_dir_abs, file_abs]) == working_dir_abs
-        if valid_target_file == False:
+        if not valid_target_file:
             return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
         
         file_exists = os.path.isfile(file_abs)
-        if file_exists == False:
+        if not file_exists:
             return f'Error: File not found or is not a regular file: "{file_path}"'
         
         # Read the file and return its contents as a string:
@@ -25,4 +25,4 @@ def get_file_content(working_directory, file_path):
             return content
 
     except Exception as e:
-        print(f"Error: {e}")
+        return f"Error: {e}"
