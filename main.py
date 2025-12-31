@@ -6,6 +6,7 @@ from google import genai
 from google.genai import types
 from AI_instructions import system_prompt
 from AI_instructions import available_functions
+from functions.call_function import call_function
 
 def main():
     load_dotenv()
@@ -29,14 +30,25 @@ def main():
     if not response.usage_metadata:
         raise RuntimeError("API request failed. ☠")
     
-    if args.verbose == True:
+    if args.verbose:
         print(f"User prompt: {args.user_prompt}")
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
         print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
     print("By your command!")
     if response.function_calls:
+        results_list = []
         for function_call in response.function_calls:
-            print(f"Calling function: {function_call.name}({function_call.args})")
+            function_call_result = call_function(function_call, verbose=args.verbose)
+            if not function_call_result.parts:
+                raise Exception('Error: function call result was not found')
+            if not function_call_result.parts[0].function_response:
+                raise Exception('Error: function call result is not a function response')
+            if not function_call_result.parts[0].function_response.response:
+                raise Exception('Error: function call result does not contain data')
+            
+            results_list.append(function_call_result.parts[0])
+            if args.verbose:
+                print(f"-> {function_call_result.parts[0].function_response.response}")
     else:
         print(response.text)
 

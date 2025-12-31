@@ -24,7 +24,7 @@ def get_files_info(working_directory, directory="."):
             results.append(
                 f'- {item}: file_size={os.path.getsize("/".join([target_dir, item]))} bytes, is_dir={os.path.isdir("/".join([target_dir, item]))}'
             )    
-        return "\n".join(results)
+        return " \n".join(results)
     
     except Exception as e:
         return f"Error: {e}"
