@@ -50,9 +50,15 @@ def main():
                 results_list.append(function_call_result.parts[0])
                 if args.verbose:
                     print(f"-> {function_call_result.parts[0].function_response.response}")
+
+            messages.append(types.Content(role="user", parts=results_list))
+
         else:
+            if not response:
+                print("Alas! The enemy assailed me and I was forced to retreat. I could not complete the task in the alotted time.")
+                raise SystemExit(1)
             if args.verbose:
-                print(f"My captain's order: {args.user_prompt}")
+                print(f"My captain's orders: {args.user_prompt}")
                 print(f"Gold spent by the captain: {response.usage_metadata.prompt_token_count}")
                 print(f"Gold spent by Beregond: {response.usage_metadata.candidates_token_count}")
             print("By your command!")
