@@ -1,0 +1,1 @@
+A personal CLI AI agent that can read, write, and execute files within a specific working directory.
