@@ -1,9 +1,9 @@
-import os
 from functions.get_file_content import get_file_content
 from functions.get_files_info import get_files_info
 from functions.run_python_file import run_python_file
 from functions.write_file import write_file
 from google.genai import types
+from pathlib import Path
 
 def call_function(function_call, verbose=False):
     if verbose == True:
@@ -34,7 +34,8 @@ def call_function(function_call, verbose=False):
     args = dict(function_call.args) if function_call.args else {}
 
     # Overwrite the working directory:
-    args["working_directory"] = "./calculator"
+    root_dir = str(Path.cwd())
+    args["working_directory"] = root_dir
 
     # The function call happens here:
     function_result = function_map[function_name](**args)
